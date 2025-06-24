@@ -50,7 +50,7 @@
   },
   "dependencies": {
     "@dcodegroup-au/dcode-chat-vue": "link:",
-    "@dcodegroup-au/dsg-vue": "^0.0.13-alpha.6",
+    "@dcodegroup-au/dsg-vue": "^0.0.25",
     "axios": "^1.9.0",
     "laravel-echo": "^2.1.4",
     "mitt": "^3.0.1",
