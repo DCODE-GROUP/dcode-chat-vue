@@ -109,6 +109,11 @@ function loadMessages(){
       <DCodeChatListing :chat="localChat" v-if="chat" :ignoreUnread="true"/>
     </div>
 
+    <div v-if="localChat?.pivot?.chat_bubble_message" 
+      class="dcode-chat__bubble p-1 text-sm text-gray-600"
+      :class="localChat?.pivot?.chat_bubble_class"
+      v-html="localChat?.pivot?.chat_bubble_message">
+    </div>
     <div class="dcode-chat__messages-list p-4 flex-1 overflow-y-auto" ref="chatContainer">
       <div v-if="localChat?.messages?.length === 0" class="text-center text-gray-500">
         No messages yet. Start the conversation!

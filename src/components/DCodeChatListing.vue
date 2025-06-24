@@ -30,7 +30,7 @@ watch(
     <div class="flex items-center space-x-3 dcode-chat__listing cursor-default" >
         <div class="relative dcode-chat__listing-avatar-container" @click="$emit('selectChat', localChat)">
             <div class="w-10 h-10 rounded-full border dcode-chat__listing-avatar flex items-center justify-center" :class="{ 'border-green-500': selected, 'border-gray-300': !selected }">
-                <div v-if="!localChat?.pivot?.chat_avatar" class="w-10 h-10" :class="{ 'fill-green-500': selected, 'fill-gray-300': !selected }">
+                <div v-if="!localChat?.pivot?.chat_avatar" class="w-10 h-10" :class="{ 'fill-green-500': selected, 'fill-gray-300': !selected}">
                     <svg xmlns="http://www.w3.org/2000/svg" fill="currentFill" viewBox="0 0 24 24"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>
                 </div>
                 <img v-if="localChat?.pivot?.chat_avatar" :src="localChat?.pivot?.chat_avatar + '?selected=' + (selected ? 'selected':'')" :alt="localChat?.pivot?.chat_title" class=" rounded-full object-contain">
@@ -43,7 +43,12 @@ watch(
                 {{ localChat?.pivot?.chat_title }}
             </div>
             <div class="text-sm text-gray-500">
+              <a v-if="localChat?.pivot?.chat_description_link" :href="localChat?.pivot?.chat_description_link" target="_blank" class="hover:underline">
                 {{  localChat?.pivot?.chat_description }}
+              </a>
+              <span v-else>
+                {{ localChat?.pivot?.chat_description }}
+                </span> 
             </div>
         </div>
     </div>  

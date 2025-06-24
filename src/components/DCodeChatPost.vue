@@ -57,8 +57,11 @@ function sendMessage() {
 }
 
 function handleEnter(event: KeyboardEvent) {
-  if (!event.shiftKey && message.value.trim().length > 0) {
-    sendMessage();
+  if (event.key === 'Enter' && !event.shiftKey){    
+    event.preventDefault();
+    if( message.value.trim().length > 0) {
+      sendMessage();
+    }
   }
 }
 
@@ -68,8 +71,7 @@ function handleEnter(event: KeyboardEvent) {
     <textarea
       @focusin="hasFocus = true"
       @focusout="hasFocus= false"
-      @keydown.enter.prevent="handleEnter"
-      type="text"
+      @keydown="handleEnter"
       placeholder="Send a message..."
       class="w-full flex-grow text-lg outline-none bg-transparent placeholder-gray-500"
       v-model="message"

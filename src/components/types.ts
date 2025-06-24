@@ -27,6 +27,7 @@ export interface Message {
     chat_avatar: string | null;
     chat_title: string | null;
     chat_description: string | null;
+    chat_description_link: string | null;
     user_name: string | null;
     user_avatar: string | null;
   }
@@ -50,6 +51,7 @@ export interface Chat {
     user_avatar: string | null;
     chat_title: string | null;
     chat_description: string | null;
+    chat_description_link: string | null;    
     chat_avatar: string | null;
     last_read_at: string | null;
     has_new_messages: boolean;

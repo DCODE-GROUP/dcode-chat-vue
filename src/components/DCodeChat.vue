@@ -3,6 +3,10 @@ import Echo from 'laravel-echo';
 import Pusher from 'pusher-js';
 import DCodeChatLeftColumn from './DCodeChatLeftColumn.vue';
 import DCodeChatMessages from './DCodeChatMessages.vue';
+import DCodeChatSearch from './DCodeChatSearch.vue';
+import DCodeChatListing from './DCodeChatListing.vue';
+import DCodeChatMessage  from './DCodeChatMessage.vue';
+
 import axios from 'axios';
 import { route } from 'ziggy-js';
 import { onMounted } from 'vue';
@@ -33,9 +37,23 @@ const props = withDefaults(defineProps<{
   currentQuery?: string;
   reverbChannel?: string;
   userId?: string | null;
+  LeftColumnComponent?: any;
+  MessagesComponent?: any;
+  SearchComponent?: any;
+  LeftColumnListingComponent?: any;
+  MessagesListingComponent?: any;
+  MessagesPostComponent?: any;
+  MessageComponent?: any;
 }>(), {
   chats: () => [],
-  useHeartbeat: true 
+  useHeartbeat: true,
+  LeftColumnComponent: () => DCodeChatLeftColumn,
+  MessagesComponent: () => DCodeChatMessages,
+  SearchComponent: () => DCodeChatSearch,
+  LeftColumnListingComponent: () => DCodeChatListing,
+  MessagesListingComponent: () => DCodeChatListing,
+  MessagesPostComponent: () => DCodeChatMessages,
+  MessageComponent: () => DCodeChatMessage,
 });
 const localChats = ref<Chat[]>([...props.chats]);
 const initialChatId = ref(props.initialChatId || null);
@@ -164,10 +182,18 @@ const heartbeat = async (callback?) => {
 <template>
   <div class="dcode-chat w-full h-full overflow-hidden flex flex-col lg:flex-row">
     <div class="dcode-chat__left-column">
-      <DCodeChatLeftColumn @searchUpdated="updateSearch" :load-messages-route="loadMessagesRoute" :chats="localChats" @selectChat="setCurrentChat" :currentChat="currentChat" />
+      <component :is="props.LeftColumnComponent"
+        :search-component="props.SearchComponent"
+        :listing-component="props.LeftColumnListingComponent"
+        @searchUpdated="updateSearch" 
+        :load-messages-route="loadMessagesRoute"
+        :chats="localChats"
+        @selectChat="setCurrentChat" :currentChat="currentChat"
+      />
     </div>
     <div class="dcode-chat__right-column w-full h-full">
-      <DCodeChatMessages :load-messages-route="loadMessagesRoute" :user-id="userId" :chat="currentChat" :post-url="postUrl(currentChat)" v-if="currentChat"/>
+      <component :is="props.MessagesComponent"
+      :load-messages-route="loadMessagesRoute" :user-id="userId" :chat="currentChat" :post-url="postUrl(currentChat)" v-if="currentChat"/>
       <div class="dcode-chat__nochat p-4 h-full" v-if="!currentChat">
         <p >
           Select a chat to start a conversation or view history

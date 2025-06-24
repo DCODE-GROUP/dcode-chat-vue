@@ -12,12 +12,17 @@ const emit = defineEmits<{
 }>();
 
 // Define props
-const props = defineProps<{
+const props = withDefaults(defineProps<{
   chats: Chat[];
   currentChat?: Chat | null;
   currentSearch?: string;
   loadMessagesRoute: string;
-}>();
+  SearchComponent?: any;
+  ListingComponent?: any;
+}>(), {
+  SearchComponent: () => DCodeChatSearch,
+  ListingComponent: () => DCodeChatListing,
+});
 const localChats = ref<Chat[]>([...props.chats]);
 const localCurrentChat = ref<Chat | null>(props.currentChat);
 const localCurrentSearch = ref(props.currentSearch || '');
@@ -84,7 +89,7 @@ function updateSearch(query: string) {
       </div>
 
       <div v-for="chat in localChats" :key="chat.id" class="dcode-chat__participant" @click="handleClick(chat)">
-        <DCodeChatListing :load-messages-route="loadMessagesRoute" :chat="chat" :selected="localCurrentChat?.id==chat.id" :class="{ 'bg-gray-100': chat.id == localCurrentChat?.id }" class="p-4 rounded-lg"/>
+        <DCodeChatListing :load-messages-route="loadMessagesRoute" :chat="chat" :selected="localCurrentChat?.id==chat.id" :class="{ 'bg-gray-100': chat.id == localCurrentChat?.id, 'hover:bg-gray-100': true }" class="p-4 rounded-lg"/>
       </div>
     </div>
   </div>
